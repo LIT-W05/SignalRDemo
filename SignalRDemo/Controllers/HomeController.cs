@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using Microsoft.AspNet.SignalR;
 
 namespace SignalRDemo.Controllers
 {
@@ -13,18 +14,12 @@ namespace SignalRDemo.Controllers
             return View();
         }
 
-        public ActionResult About()
+        [HttpPost]
+        public void NewMessage(string message)
         {
-            ViewBag.Message = "Your application description page.";
-
-            return View();
+            var hub = GlobalHost.ConnectionManager.GetHubContext<SimpleHub>();
+            hub.Clients.All.newMessageReceived(message);
         }
 
-        public ActionResult Contact()
-        {
-            ViewBag.Message = "Your contact page.";
-
-            return View();
-        }
     }
 }
